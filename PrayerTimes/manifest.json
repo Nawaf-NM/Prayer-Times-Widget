@@ -1,0 +1,47 @@
+{
+  "author": "Nawaf AlMutairi",
+  "id": "prayer-times-widget",
+  "name": "Prayer Times",
+  "description": "Five daily prayer times with a live countdown to the next prayer. Developer: Nawaf AlMutairi - https://Nawaf-Blog.com/NM",
+  "version": "0.0.1",
+  "preview_icon": "resources/icon.svg",
+  "min_framework_version": "1.0.0",
+  "min_app_version": "5.47",
+  "os": [
+    {
+      "platform": "windows"
+    }
+  ],
+  "supported_devices": [
+    {
+      "type": "dashboard_lcd"
+    }
+  ],
+  "permissions": [
+    {
+      "type": "url",
+      "domain": "api.aladhan.com",
+      "port": 443
+    },
+    {
+      "type": "url",
+      "domain": "esalah.com",
+      "port": 443
+    },
+    {
+      "type": "url",
+      "domain": "geocoding-api.open-meteo.com",
+      "port": 443
+    },
+    {
+      "type": "url",
+      "domain": "ipwho.is",
+      "port": 443
+    },
+    {
+      "type": "url",
+      "domain": "geojs.io",
+      "port": 443
+    }
+  ]
+}
