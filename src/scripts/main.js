@@ -791,7 +791,7 @@ function pad(n) { return (n < 10 ? '0' : '') + n; }
 function dkey(d) { return pad(d.getDate()) + '-' + pad(d.getMonth() + 1) + '-' + d.getFullYear(); }
 function iso(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 function addDays(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
-function cfgSig() { return [cfg.pick, cfg.city.toLowerCase(), cfg.country.toLowerCase(), cfg.source, cfg.method, cfg.school, cfg.fallback ? 1 : 0].join('|'); }
+function cfgSig() { return [cfg.pick, cfg.city.toLowerCase(), cfg.country.toLowerCase(), cfg.source, cfg.mset, cfg.school, cfg.fallback ? 1 : 0].join('|'); }
 function locSig(loc) { return loc ? loc.lat.toFixed(2) + ',' + loc.lng.toFixed(2) : 'c:' + cfg.city.toLowerCase() + ',' + cfg.country.toLowerCase(); }
 function ckey(dk, loc) { return 'pt3|' + locSig(loc) + '|' + [cfg.source, cfg.method, cfg.school, cfg.fallback ? 1 : 0].join('|') + '|' + dk; }
 function num(v, lo, hi) { var n = parseFloat(String(v).replace(',', '.')); return (isFinite(n) && n >= lo && n <= hi) ? n : null; }
@@ -803,7 +803,8 @@ function readCfg() {
   cfg.pick = String(g('cityPick', 'auto'));
   cfg.city = String(g('city', '')).trim();
   cfg.country = String(g('countryPick', 'none'));
-  cfg.method = String(g('calcMethod', '4'));
+  cfg.mset = String(g('calcMethod', 'auto'));
+  cfg.method = cfg.mset === 'auto' ? '4' : cfg.mset;
   cfg.school = String(g('asrSchool', '0'));
   cfg.source = String(g('prayerSource', 'aladhan'));
   cfg.fallback = b('fallbackLocal', true);
@@ -1156,6 +1157,32 @@ function prayerDates(d, rec) {
   return out;
 }
 
+
+var NA_KEYS = { 'New York': 1, 'Los Angeles': 1, 'Chicago': 1, 'Toronto': 1, 'Washington': 1, 'Houston': 1, 'Dallas': 1, 'Detroit': 1, 'Miami': 1, 'San Francisco': 1, 'Seattle': 1, 'Boston': 1, 'Atlanta': 1, 'Philadelphia': 1, 'Montreal': 1, 'Vancouver': 1, 'Ottawa': 1 };
+function inNorthAmerica(lat, lng) {
+  if (lat >= 18.8 && lat <= 22.4 && lng >= -160.6 && lng <= -154.6) return true;
+  if (lat >= 54 && lat <= 72 && lng >= -170 && lng < -141) return true;
+  if (lat >= 49 && lat <= 62 && lng >= -141 && lng <= -52.5) return true;
+  if (lat < 24.4 || lat > 49 || lng < -125 || lng > -52.5) return false;
+  if (lng > -79.5 && lat < 27) return false;
+  var b;
+  if (lng < -114.8) b = 32.5;
+  else if (lng < -108.2) b = 31.33;
+  else if (lng < -106.5) b = 31.72;
+  else if (lng < -97.2) b = 31.72 - (lng + 106.5) * (31.72 - 25.9) / 9.3;
+  else b = lng > -83 ? 24.4 : 25.8;
+  return lat > b;
+}
+function applyMethod(loc) {
+  if (cfg.mset !== 'auto') { cfg.method = cfg.mset; return; }
+  var na = false;
+  if (cfg.pick === 'other' && COUNTRIES[cfg.country]) na = (cfg.country === 'US' || cfg.country === 'CA');
+  else if (NA_KEYS[cfg.pick]) na = true;
+  else if (loc && typeof loc.lat === 'number' && cfg.pick !== 'other' && !CITIES[cfg.pick]) na = inNorthAmerica(loc.lat, loc.lng);
+  else if (loc && cfg.pick === 'other') na = inNorthAmerica(loc.lat, loc.lng);
+  cfg.method = na ? '2' : '4';
+}
+
 var refreshing = false, lastTry = 0, pruned = false;
 var state = { day: '', yest: null, today: null, tomorrow: null, loc: null };
 function refresh() {
@@ -1168,6 +1195,7 @@ function refresh() {
     return (cfg.pick === 'other' && cfg.city && COUNTRIES[cfg.country]) ? null : undefined;
   }).then(function (loc) {
     if (loc === undefined) return [null, null, null, undefined];
+    applyMethod(loc);
     return Promise.all([loadDay(addDays(now, -1), loc), loadDay(now, loc), loadDay(addDays(now, 1), loc)]).then(function (r) { r.push(loc); return r; });
   }).then(function (r) {
     state.yest = r[0]; state.today = r[1]; state.tomorrow = r[2]; state.loc = r[3] || null;
