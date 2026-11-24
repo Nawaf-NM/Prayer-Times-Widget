@@ -1208,8 +1208,10 @@ function tick() {
   var mm = pad(now.getMinutes()), hh, ap = '';
   if (cfg.fmt === '24') { hh = pad(h); }
   else { hh = String(h % 12 === 0 ? 12 : h % 12); ap = '<small>' + (h >= 12 ? L.pm : L.am) + '</small>'; }
-  var clockHtml = '<span>' + hh + ':</span><span class="m">' + mm + '</span>' + ap;
+  var clockHtml = '<span class="m">' + hh + ':</span><span class="m">' + mm + '</span><span class="ap' + (ap ? '' : ' solo') + '"><i class="sec" id="sec"></i>' + ap + '</span>';
   if (nowEl.getAttribute('data-sig') !== clockHtml) { nowEl.innerHTML = clockHtml; nowEl.setAttribute('data-sig', clockHtml); }
+  var secEl = document.getElementById('sec');
+  if (secEl) secEl.textContent = pad(now.getSeconds());
   var icEl = document.getElementById('ic');
   var dayFlag = isDay(now);
   if (icEl.getAttribute('data-d') !== (dayFlag ? '1' : '0')) { icEl.innerHTML = dayFlag ? SUN_SVG : MOON_SVG; icEl.setAttribute('data-d', dayFlag ? '1' : '0'); }
@@ -1297,10 +1299,34 @@ function tick() {
   if (cells.getAttribute('data-sig') !== html) { cells.innerHTML = html; cells.setAttribute('data-sig', html); }
 }
 
+
+// Center the clock digits vertically inside the pill. Fonts such as Bahnschrift keep
+// extra space below the digits, so the digits look raised; measure the real ink box
+// of the digits and shift the text by the difference (in em).
+function centerClock() {
+  try {
+    var el = document.getElementById('now');
+    if (!el) return;
+    var fam = getComputedStyle(el).fontFamily;
+    var ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = '600 100px ' + fam;
+    var m = ctx.measureText('0123456789');
+    var fa = m.fontBoundingBoxAscent, fd = m.fontBoundingBoxDescent;
+    var ia = m.actualBoundingBoxAscent, id = m.actualBoundingBoxDescent;
+    if (!(fa > 0) || !(ia > 0)) return;
+    var base = (100 - (fa + fd)) / 2 + fa;
+    var inkCenter = base - (ia - id) / 2;
+    var shift = (50 - inkCenter) / 100;
+    if (shift > 0.3 || shift < -0.3) shift = 0;
+    el.style.setProperty('--ns', shift.toFixed(4));
+  } catch (e) {}
+}
+
 var lastLoc = '';
 function init() {
   readCfg();
   inited = true;
+  centerClock();
   var loc = cfgSig();
   if (loc !== lastLoc || !ready) {
     lastLoc = loc;
@@ -1314,6 +1340,7 @@ function init() {
 
 function safeTick() { try { tick(); } catch (e) {} }
 
+try { if (document.fonts && document.fonts.ready) { document.fonts.ready.then(centerClock); } } catch (e) {}
 icueEvents = { onICUEInitialized: init, onDataUpdated: init };
 if (typeof iCUE_initialized !== 'undefined' && iCUE_initialized) { init(); }
 function loop() {
