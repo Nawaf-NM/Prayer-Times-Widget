@@ -56,6 +56,4 @@ No extra software is needed.
 
 ## Contact
 
-Support: Nawaf.WP@gmail.com
-
-You can also contact me through my accounts here: https://Nawaf-Blog.com/NM
+You can contact me through my accounts here: https://Nawaf-Blog.com/NM
