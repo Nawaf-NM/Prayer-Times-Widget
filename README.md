@@ -13,7 +13,7 @@ The countdown turns red during the last 30 seconds, and when the prayer time sta
 - Gregorian and Hijri (Umm al-Qura) dates, 12 or 24 hour clock
 - Three prayer times sources: AlAdhan, eSalah and an offline local calculation, with automatic fallback
 - Automatic location (device location, then internet, then time zone), 255 ready-made cities, or any city in 196 countries
-- 10 calculation methods, with standard or Hanafi Asr
+- 10 calculation methods, with standard or Hanafi Asr, and an Automatic mode that uses ISNA in the United States and Canada and Umm Al-Qura elsewhere
 - 29 languages that follow your Windows language by default, including right-to-left languages
 - Seven backgrounds that change with each prayer, one fixed background, or a custom color
 - Four sizes: S, M, L and XL
