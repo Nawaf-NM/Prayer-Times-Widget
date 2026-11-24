@@ -1,8 +1,8 @@
-# Prayer Times Widget for CORSAIR XENEON EDGE
+# WAQTI Prayer Times for CORSAIR XENEON EDGE
 
 ![Prayer times, countdown and iqama circle](screenshots/widget-demo.gif)
 
-Prayer times on the CORSAIR XENEON EDGE, all in one widget. It shows the clock, the Gregorian and Hijri dates, the five daily prayers and a live countdown to the next prayer, with a progress bar and a card for every prayer.
+WAQTI shows the prayer times on the CORSAIR XENEON EDGE, all in one widget. It shows the clock, the Gregorian and Hijri dates, the five daily prayers and a live countdown to the next prayer, with a progress bar and a card for every prayer.
 
 The countdown turns red during the last 30 seconds, and when the prayer time starts a circle counts down 15 minutes to the iqama. In the widget settings you can choose your city, the prayer times source, the calculation method, the language, and the background. It comes in four sizes (S, M, L and XL) and it is built for touch screens.
 
@@ -44,7 +44,7 @@ No extra software is needed.
 
 ## Download
 
-- [Releases page](https://github.com/Nawaf-NM/Prayer-Times-Widget/releases)
+- [Releases page](https://github.com/Nawaf-NM/WAQTI-Prayer-Times/releases)
 
 ## Notes
 
@@ -56,4 +56,6 @@ No extra software is needed.
 
 ## Contact
 
-You can contact me through my accounts here: https://Nawaf-Blog.com/NM
+Support: Nawaf.WP@gmail.com
+
+You can also contact me through my accounts here: https://Nawaf-Blog.com/NM
