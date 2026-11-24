@@ -16,7 +16,7 @@ body { font-family: "Segoe UI", Tahoma, sans-serif; }
 .now { position: relative; top: calc(var(--ns, 0) * 1em); font-family: Bahnschrift, "Segoe UI", sans-serif; font-weight: 600; line-height: 1; font-size: min(25cqh, 8.6cqw); direction: ltr; white-space: nowrap; display: flex; align-items: baseline; }
 .now .m { background: linear-gradient(180deg, var(--acc2), var(--acc)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .now small { font-family: "Segoe UI", sans-serif; font-size: .34em; margin-inline-start: .35em; opacity: .8; color: var(--acc); }
-.now .ap { display: inline-block; position: relative; font-family: "Segoe UI", sans-serif; font-size: .34em; line-height: 1; margin-inline-start: .35em; color: var(--acc); }
+.now .ap { display: inline-block; min-width: 1.7em; white-space: nowrap; position: relative; font-family: "Segoe UI", sans-serif; font-size: .34em; line-height: 1; margin-inline-start: .35em; color: var(--acc); }
 .now .ap small { font-size: 1em; margin: 0; }
 .now .sec { position: absolute; left: 0; bottom: 100%; margin-bottom: .02em; font-style: normal; font-family: Bahnschrift, "Segoe UI", sans-serif; font-weight: 600; font-size: 1.3em; line-height: 1; opacity: .85; font-variant-numeric: tabular-nums; }
 .now .ap.solo { align-self: baseline; }
