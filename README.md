@@ -51,7 +51,7 @@ No extra software is needed.
 - **Location:** Automatic mode tries the device location first, then the internet (ipwho.is and geojs.io), then your Windows time zone, and the widget shows which one it used. For any other city choose **Other city**, pick the country and type the city name. Leave the name empty to use the capital.
 - **Sources:** If the selected source fails, the widget switches to the offline calculation (can be turned off). The eSalah source follows its published API and has not been tested yet.
 - **Calculation method:** The default is Automatic: ISNA for cities in the United States and Canada, and Umm Al-Qura everywhere else. You can pick any other method in the settings.
-- **Privacy:** Your city or coordinates are sent only to the services listed in `manifest.json`: `api.aladhan.com`, `esalah.com`, `geocoding-api.open-meteo.com`, `ipwho.is` and `geojs.io`. The widget has no server of its own.
+- **Privacy:** The developer never receives, collects or stores any user's location. The widget has no server of its own and no analytics. To get the prayer times, your city or coordinates are sent directly from your own computer to the services listed in `manifest.json` only: `api.aladhan.com`, `esalah.com`, `geocoding-api.open-meteo.com`, `ipwho.is` and `geojs.io`. The last detected location and the downloaded prayer times are kept only in the widget's local cache on your computer, so they work offline and load faster.
 - **Trademarks:** Corsair, iCUE and XENEON EDGE are trademarks of their respective owners. This widget is unofficial and is a personal project of mine.
 
 ## Contact
